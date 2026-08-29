@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Portfolio Admin</title>
+  <style>
+    body{
+      font-family:Arial;
+      background:#111;
+      color:white;
+      padding:30px;
+    }
+
+    input,button{
+      padding:10px;
+      margin:5px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:20px;
+    }
+
+    th,td{
+      border:1px solid #555;
+      padding:10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Portfolio Admin Login</h2>
+
+<div id="login">
+
+<input id="user" placeholder="Username">
+
+<input id="pass" type="password" placeholder="Password">
+
+<button onclick="loadMessages()">Login</button>
+
+</div>
+
+<table id="table"></table>
+
+<script>
+
+async function loadMessages(){
+
+const user=document.getElementById("user").value;
+const pass=document.getElementById("pass").value;
+
+const res=await fetch(`/api/messages?user=${user}&pass=${pass}`);
+
+if(!res.ok){
+alert("Wrong username or password");
+return;
+}
+
+const data=await res.json();
+
+let html=`<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Message</th>
+<th>Date</th>
+</tr>`;
+
+data.forEach(m=>{
+html+=`<tr>
+<td>${m.name}</td>
+<td>${m.email}</td>
+<td>${m.message}</td>
+<td>${new Date(m.created_at).toLocaleString()}</td>
+</tr>`;
+});
+
+document.getElementById("login").style.display="none";
+document.getElementById("table").innerHTML=html;
+
+}
+
+</script>
+
+</body>
+</html>

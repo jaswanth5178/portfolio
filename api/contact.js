@@ -1,3 +1,4 @@
+import { sql } from "@vercel/postgres";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -6,10 +7,13 @@ export default async function handler(req, res) {
 
   const { name, email, message } = req.body;
 
-  console.log("New Contact:", { name, email, message });
+  await sql`
+    INSERT INTO messages (name, email, message)
+    VALUES (${name}, ${email}, ${message})
+  `;
 
-  return res.status(200).json({
+  res.status(200).json({
     success: true,
-    message: "Message received successfully!"
+    message: "Message sent successfully!"
   });
 }
