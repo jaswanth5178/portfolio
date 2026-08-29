@@ -24,7 +24,7 @@ public class PortfolioServer {
     private static final String DB_URL =
             "jdbc:mysql://localhost:3306/portfolio_db?useSSL=false&serverTimezone=Asia/Kolkata";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "YOUR_MYSQL_PASSWORD";
+    private static final String DB_PASSWORD = "jaswanth";
 
     public static void main(String[] args) throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
