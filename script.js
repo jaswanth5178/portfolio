@@ -26,7 +26,7 @@ const menuToggle=document.getElementById('menuToggle');const navLinks=document.g
   status.textContent = 'Sending message...';
 
   try {
-    const response = await fetch('http://localhost:8090/api/contact', {
+    const response = await fetch("/api/contact", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
