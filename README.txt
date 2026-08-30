@@ -1,59 +1,64 @@
-JASWANTH PORTFOLIO - JAVA + MYSQL BACKEND
+🚀 Jaswanth Portfolio
 
-WHAT IS CONNECTED
------------------
-The portfolio contact form is connected to a Java backend.
+A full-stack personal portfolio website showcasing my projects, skills, and experience. It includes a working contact form backed by Vercel Serverless Functions and Neon PostgreSQL, along with a private admin dashboard to view and manage submitted messages.
 
-Frontend:
-    index.html
-    script.js
-    style.css
+🌐 Live Demo
 
-Backend:
-    Java HttpServer
-    Port 8090
+- Portfolio: https://portfolio-jaswanth-b34b.vercel.app/
+- Admin Dashboard: https://portfolio-jaswanth-b34b.vercel.app/admin.html
 
-Database:
-    MySQL
-    Database: portfolio_db
-    Table: contact_messages
+✨ Features
 
-API
----
-GET  http://localhost:8090/api/health
-POST http://localhost:8090/api/contact
+- Responsive modern portfolio UI
+- Dark/Light mode toggle
+- Project showcase
+- Skills and experience sections
+- Contact form with backend integration
+- Messages stored in Neon PostgreSQL
+- Private Admin Dashboard
+- Delete messages functionality
+- Deployed on Vercel
 
-POST JSON:
-{
-  "name": "Jaswanth",
-  "email": "example@gmail.com",
-  "message": "Hello"
-}
+🛠 Tech Stack
 
-SETUP
------
-1. Make sure MySQL Server is running.
-2. Open MySQL Workbench.
-3. Open backend/database.sql and execute it.
-4. Put mysql-connector-j-9.7.0.jar inside:
-       backend/lib/
-5. Open backend/src/PortfolioServer.java.
-6. Change:
-       DB_USER
-       DB_PASSWORD
-   to your MySQL username/password.
-7. Open PowerShell inside the backend folder.
-8. Run:
-       powershell -ExecutionPolicy Bypass -File .\run-backend.ps1
-9. Confirm this works in the browser:
-       http://localhost:8090/api/health
-10. Start the portfolio with Live Server.
+Frontend
+- HTML5
+- CSS3
+- JavaScript (ES6)
 
-IMPORTANT
----------
-Do not open index.html directly with file:// if the browser blocks requests.
-Use VS Code Live Server, for example:
-http://127.0.0.1:5500/index.html
+Backend
+- Vercel Serverless Functions
+- Node.js
 
-The Email/GitHub/LinkedIn links remain unchanged.
-Only the portfolio contact form is now connected to Java + MySQL.
+Database
+- Neon PostgreSQL
+
+### Deployment
+- Vercel
+
+📂 Project Structure
+
+
+jaswanthportfolio/
+│── api/
+│   ├── contact.js
+│   ├── messages.js
+│   └── delete-message.js
+│
+│── assets/
+│── images/
+│── admin.html
+│── index.html
+│── script.js
+│── style.css
+│── package.json
+└── README.md
+
+
+📬 Contact
+
+GitHub: https://github.com/jaswanth5178
+
+LinkedIn: https://www.linkedin.com/in/pattupogula-jaswanth-97b69326b/
+
+Email: pattupogulajaswanth5@gmail.com
