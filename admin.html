@@ -1,84 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Portfolio Admin</title>
-  <style>
-    body{
-      font-family:Arial;
-      background:#111;
-      color:white;
-      padding:30px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Admin</title>
 
-    input,button{
-      padding:10px;
-      margin:5px;
-    }
+<style>
+body{
+  font-family:Arial,sans-serif;
+  background:#0f0f0f;
+  color:white;
+  padding:40px;
+}
+input,button{
+  padding:12px;
+  margin:6px;
+  font-size:16px;
+}
+button{
+  cursor:pointer;
+  border:none;
+  border-radius:6px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+}
+th,td{
+  border:1px solid #555;
+  padding:10px;
+}
+th{
+  background:#222;
+}
+.delete-btn{
+  background:#e53935;
+  color:white;
+}
+.delete-btn:hover{
+  background:#c62828;
+}
+</style>
 
-    table{
-      width:100%;
-      border-collapse:collapse;
-      margin-top:20px;
-    }
-
-    th,td{
-      border:1px solid #555;
-      padding:10px;
-    }
-  </style>
 </head>
-
 <body>
 
-<h2>Portfolio Admin Login</h2>
+<h1>Portfolio Admin Login</h1>
 
-<div id="login">
-
-<input id="user" placeholder="Username">
-
-<input id="pass" type="password" placeholder="Password">
-
-<button onclick="loadMessages()">Login</button>
-
+<div id="loginBox">
+  <input id="user" placeholder="Username">
+  <input id="pass" type="password" placeholder="Password">
+  <button onclick="loadMessages()">Login</button>
 </div>
 
 <table id="table"></table>
 
 <script>
 
+let adminUser="";
+let adminPass="";
+
 async function loadMessages(){
 
-const user=document.getElementById("user").value;
-const pass=document.getElementById("pass").value;
+  adminUser=document.getElementById("user").value.trim();
+  adminPass=document.getElementById("pass").value;
 
-const res=await fetch(`/api/messages?user=${user}&pass=${pass}`);
+  const res=await fetch(
+    `/api/messages?user=${encodeURIComponent(adminUser)}&pass=${encodeURIComponent(adminPass)}`
+  );
 
-if(!res.ok){
-alert("Wrong username or password");
-return;
+  if(!res.ok){
+    const err=await res.json().catch(()=>({message:"Wrong username or password"}));
+    alert(err.message);
+    return;
+  }
+
+  const data=await res.json();
+
+  let html=`
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Message</th>
+      <th>Date</th>
+      <th>Action</th>
+    </tr>`;
+
+  data.forEach(m=>{
+    html+=`
+      <tr>
+        <td>${m.name}</td>
+        <td>${m.email}</td>
+        <td>${m.message}</td>
+        <td>${new Date(m.created_at).toLocaleString()}</td>
+        <td>
+          <button class="delete-btn" onclick="deleteMessage(${m.id})">
+            Delete
+          </button>
+        </td>
+      </tr>`;
+  });
+
+  document.getElementById("loginBox").style.display="none";
+  document.getElementById("table").innerHTML=html;
 }
 
-const data=await res.json();
+async function deleteMessage(id){
 
-let html=`<tr>
-<th>Name</th>
-<th>Email</th>
-<th>Message</th>
-<th>Date</th>
-</tr>`;
+  if(!confirm("Are you sure you want to delete this message?")){
+    return;
+  }
 
-data.forEach(m=>{
-html+=`<tr>
-<td>${m.name}</td>
-<td>${m.email}</td>
-<td>${m.message}</td>
-<td>${new Date(m.created_at).toLocaleString()}</td>
-</tr>`;
-});
+  const res=await fetch(
+    `/api/delete-message?id=${id}&user=${encodeURIComponent(adminUser)}&pass=${encodeURIComponent(adminPass)}`,
+    {
+      method:"DELETE"
+    }
+  );
 
-document.getElementById("login").style.display="none";
-document.getElementById("table").innerHTML=html;
+  const result=await res.json();
 
+  if(result.success){
+    loadMessages();
+  }else{
+    alert(result.message);
+  }
 }
 
 </script>

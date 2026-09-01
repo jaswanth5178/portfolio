@@ -42,11 +42,11 @@ const menuToggle=document.getElementById('menuToggle');const navLinks=document.g
 
     status.textContent = '✓ Message sent successfully. Thank you!';
     form.reset();
-  } catch (error) {
-    console.error('Contact form error:', error);
-    status.textContent =
-      'Unable to connect to the backend. Please start the Java server and try again.';
-  } finally {
+    } catch (error) {
+      console.error('Contact form error:', error);
+      status.textContent = error.message || 'Something went wrong.';
+    }
+    finally {
     button.disabled = false;
     button.style.opacity = '1';
   }
